@@ -1,0 +1,3 @@
+module.exports = ($scope) ->
+  $scope.title = 'Single View'
+  $scope.content = "Jean shorts bicycle rights ethnic chia, mlkshk semiotics Wes Anderson +1 you probably haven't heard of them fap Intelligentsia direct trade farm-to-table. Hashtag Echo Park Tumblr 8-bit. Hoodie Tonx four loko mixtape, iPhone irony Brooklyn Marfa deep v. XOXO iPhone ugh, hella lo-fi wolf selfies chia bespoke. Artisan sartorial shabby chic sustainable typewriter, Tonx pop-up yr. Actually gluten-free normcore Carles brunch locavore. Butcher tote bag put a bird on it, flexitarian four loko bespoke you probably haven't heard of them."

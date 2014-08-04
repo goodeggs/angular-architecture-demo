@@ -1,0 +1,19 @@
+#app-view
+  nav
+    .container
+      .navbar-header
+        a.navbar-brand(href='#') Angular Demo Architecture
+
+      .navbar-collapse.collapse
+        ul.nav.navbar-nav
+          li
+            a(href='#' ui-sref='main.singleView') Single View
+          li
+            a(href='#' ui-sref='main.multipleNamedViews') Multiple Named View
+          li
+            a(href='#' ui-sref='main.nestedViews.child1') Nested Views
+          li
+            a(href='#' ui-sref='main.viewWithCustomDirectives') View With Custom Directives
+
+  main
+    ui-view

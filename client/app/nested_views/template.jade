@@ -1,0 +1,9 @@
+#app-nested-views-view
+  .sidebar
+    tabset(vertical="true" type="pills")
+      tab(heading="Child 1" ui-sref=".child1")
+      tab(heading="Child 2" ui-sref=".child2")
+      tab(heading="Child 3" ui-sref=".child3")
+
+  section.content
+    ui-view
