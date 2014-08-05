@@ -19,5 +19,4 @@ nocache
 public/build
 server/app/public
 asset-manifest.json
-bin/
 src/apps/main/build/*
