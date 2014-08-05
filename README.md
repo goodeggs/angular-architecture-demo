@@ -1,12 +1,37 @@
 # Angular Demo App
 
-## Principles
+A place to throw around ideas about Angular best practice architecture patterns. This is inspired by the [Angular best practice architecture recommendations](http://blog.angularjs.org/2014/02/an-angularjs-style-guide-and-best.html), as well as some of the popular Angular seeds:
 
-- Structure should be consistent across modules
-- separate units by function
-- controllers do not need unit tests because they are the glue of the application. An integration test is more suitable for testing each app
-- Every index file is a top level entry point for that module
-- Angular already has a fantastic module management system already, take advantage of Angular's system as much as possible. Use requires for internal files, let angular manage top-level modules
-- Group all related files together (including tests for those files)
-- Everything that is only intended to be used once goes in apps, everything else intended for reseuse goes in modules
-- Avoid long redundant naming (e.g. route_view/route_view.template.coffee -> route_view/template.coffee)
+- [Generator Angular Fullstack](https://www.npmjs.org/package/generator-angular-fullstack)
+- [ngbp](https://github.com/ngbp/ngbp)
+- [Angular App](https://github.com/angular-app/angular-app)
+
+## Project Setup
+
+- `npm install`
+- `grunt build`
+- `grunt watch`
+- `npm start`
+- open localhost:4000
+
+## Advantages
+
+This architecture has several advantages over our current organization
+
+1. **More Modular** - styles and specs are grouped directly with their related views/module files. This makes modules easier to understand, update, and maintain
+2. **Fewer Duplicate Require Statements** - Angular already has a great module management system. The build compiles the index.coffee of each module/view, and lets angular take care of the rest. This means fewer 'requires' to maintain.
+3. **More intuitive view hierarchy** - we can tell which views are nested inside other views by looking at the directory hierarchy
+4. **Concise Jade Templates** - Jade is more concise than HTML or teacup. Also, compared to teacup, we don't have to require all the tags at the top of every file
+5. **Expressive stylus** - the stylus build gives each file access to the bootstrap variables and classes
+
+## Basic View Structure
+
+- **index.coffee** - top level entry point for each Angular module
+- **controller.coffee**
+- **template.jade**
+- **e2e.coffee** - e2e tests that run using selenium webdriver
+- **unit.coffee** - unit tests that run using karma
+
+## TODO
+
+- Figure out a way to automatically wrap each template and style with the same id. It would be nice if we could do this and somehow still retain access to the global stylus ids and classes if necessary
