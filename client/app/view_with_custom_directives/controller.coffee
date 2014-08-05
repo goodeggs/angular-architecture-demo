@@ -1,3 +1,14 @@
-module.exports = ($scope) ->
-  $scope.title = 'Single View'
-  $scope.content = "Jean shorts bicycle rights ethnic chia, mlkshk semiotics Wes Anderson +1 you probably haven't heard of them fap Intelligentsia direct trade farm-to-table. Hashtag Echo Park Tumblr 8-bit. Hoodie Tonx four loko mixtape, iPhone irony Brooklyn Marfa deep v. XOXO iPhone ugh, hella lo-fi wolf selfies chia bespoke. Artisan sartorial shabby chic sustainable typewriter, Tonx pop-up yr. Actually gluten-free normcore Carles brunch locavore. Butcher tote bag put a bird on it, flexitarian four loko bespoke you probably haven't heard of them."
+module.exports = ($scope, $modal) ->
+  $scope.items = ['test1', 'test2', 'test3']
+
+  $scope.openModal = ->
+    modalInstance = $modal.open
+      resolve:
+        items: -> $scope.items
+      template: require('./modal/template')()
+      controller: require './modal/controller'
+
+    modalInstance.result.then (selectedItem) ->
+      $scope.selected = selectedItem
+    , ->
+      $log.info 'Modal dismissed at: ' + new Date()

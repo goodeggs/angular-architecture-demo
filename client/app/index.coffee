@@ -3,6 +3,7 @@ app = angular.module 'app', [
   'ui.bootstrap'
 ]
 
+
 app.config ($stateProvider, $urlRouterProvider) ->
   $stateProvider.state 'main',
     url: ''

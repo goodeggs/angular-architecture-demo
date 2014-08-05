@@ -8,10 +8,7 @@ A place to throw around ideas about Angular best practice architecture patterns.
 
 ## Project Setup
 
-- `npm install`
-- `grunt build`
-- `grunt watch`
-- `npm start`
+- `grunt dev`
 - open localhost:4000
 
 ## Advantages

@@ -25,6 +25,10 @@ module.exports = (grunt) ->
         src: ['client/modules/styles/index.styl', 'client/app/**/*.styl'],
         dest: 'client/modules/styles/bundle.styl'
 
+    concurrent:
+      options: logConcurrentOutput: true
+      dev: ['watch:build', 'shell:npm-start']
+
     copy:
       main:
         files: [
@@ -55,6 +59,9 @@ module.exports = (grunt) ->
         singleRun: false
         browsers: ['Chrome']
 
+    shell:
+      'npm-start': command: 'npm start'
+
     watch:
       build:
         options: livereload: true
@@ -62,9 +69,5 @@ module.exports = (grunt) ->
         tasks: ['build']
 
   grunt.registerTask 'styles', ['concat', 'stylus', 'clean:stylus']
-
-  grunt.registerTask 'build', [
-    'clean:public'
-    'styles'
-    'browserify'
-  ]
+  grunt.registerTask 'build', ['clean:public', 'styles', 'browserify']
+  grunt.registerTask 'dev', ['npm-install', 'build', 'concurrent:dev']
