@@ -31,6 +31,6 @@ This architecture has several advantages over our current organization
 
 ## TODO
 
-- Figure out a way to automatically wrap each template and style with the same id. It would be nice if we could do this and somehow still retain access to the global stylus ids and classes if necessary
 - Figure out a way to do ngmin effectively (maybe with custom webpack loaders)
 - create node_module for custom ngmining
+- create examples

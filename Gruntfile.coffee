@@ -25,10 +25,8 @@ module.exports = (grunt) ->
             ]
       for app in apps
         config[app] =
-          files: do ->
-            task = {}
-            task["server/app/public/#{app}_bundle.js"] = ["client/apps/#{app}/**/index.coffee"]
-            task
+          src: "client/apps/#{app}/**/index.coffee"
+          dest: "server/app/public/#{app}_bundle.js"
       config
 
     clean:
@@ -57,12 +55,8 @@ module.exports = (grunt) ->
       config = {}
       for app in apps
         config[app] =
-          files: do ->
-            task = {}
-            task["server/app/public/#{app}_bundle.css"] = 'client/modules/styles/bundle.styl'
-            task
-        # config[app].files = {}
-        # config[app].files
+          src: 'client/modules/styles/bundle.styl'
+          dest: "server/app/public/#{app}_bundle.css"
       config
 
     karma:
@@ -83,6 +77,14 @@ module.exports = (grunt) ->
         autoWatch: true
         singleRun: false
         browsers: ['Chrome']
+
+    ngAnnotate: do ->
+      config = {}
+      for app in apps
+        config[app] =
+          src: "server/app/public/#{app}_bundle.js"
+          dest: "server/app/public/#{app}_bundle.js"
+      config
 
     nodemon:
       dev: script: 'bin/www'
