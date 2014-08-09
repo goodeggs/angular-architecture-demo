@@ -1,6 +1,8 @@
 app = angular.module 'viewWithCustomDirectives', [
   'ui.router'
   'ui.bootstrap'
+
+  'viewWithCustomDirectives.listItem'
 ]
 
 app.config ($stateProvider) ->

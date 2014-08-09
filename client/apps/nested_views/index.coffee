@@ -1,4 +1,5 @@
 app = angular.module 'nestedViews', [
+  # global requires that apply throughout the app:
   'ui.router'
   'ui.bootstrap'
 
@@ -7,10 +8,12 @@ app = angular.module 'nestedViews', [
   'nestedViews.child3'
 ]
 
-
-app.config ($stateProvider) ->
+app.config ($stateProvider, $urlRouterProvider) ->
 
   $stateProvider.state 'nestedViews',
     url: ''
     abstract: true
     template: require './template'
+
+  # default state allows us to navigate directly to parent view:
+  $urlRouterProvider.when '', '/child1'

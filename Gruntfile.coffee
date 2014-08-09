@@ -1,7 +1,14 @@
 module.exports = (grunt) ->
   # load devDependency grunt tasks
   require('matchdep').filterAll(['grunt-*', '!grunt-cli']).forEach(grunt.loadNpmTasks)
-  apps = ['single_view', 'multiple_named_views', 'nested_views', 'view_with_custom_directives']
+
+  # all apps as they appear in the directory name
+  apps = [
+    'single_view'
+    'multiple_named_views'
+    'nested_views'
+    'view_with_custom_directives'
+  ]
 
   grunt.initConfig
     browserify: do ->
@@ -24,38 +31,17 @@ module.exports = (grunt) ->
             task
       config
 
-      # single_view:
-      #   files:
-      #     'server/app/public/single_view_bundle.js': [
-      #       'client/apps/single_view/**/index.coffee'
-      #     ]
-      # multiple_named_views:
-      #   files:
-      #     'server/app/public/multiple_named_views_bundle.js': [
-      #       'client/apps/multiple_named_views/**/index.coffee'
-      #     ]
-      # nested_views:
-      #   files:
-      #     'server/app/public/nested_views_bundle.js': [
-      #       'client/apps/nested_views/**/index.coffee'
-      #     ]
-      # view_with_custom_directives:
-      #   files:
-      #     'server/app/public/view_with_custom_directives_bundle.js': [
-      #       'client/apps/view_with_custom_directives/**/index.coffee'
-      #     ]
-
     clean:
       public: ['server/app/public']
       stylus: ['client/modules/styles/bundle.styl']
 
     concat: do ->
-      tasks = {}
+      config = {}
       for app in apps
-        tasks[app] =
+        config[app] =
           src: ['client/modules/styles/index.styl', "client/apps/#{app}/**/*.styl"],
           dest: 'client/modules/styles/bundle.styl'
-      tasks
+      config
 
     concurrent:
       options: logConcurrentOutput: true
@@ -67,9 +53,17 @@ module.exports = (grunt) ->
           expand: true, cwd: 'client', src: ['assets/**/*.!(js|coffee|html|styl|css)'], dest: 'public'
         ]
 
-    stylus:
-      compile:
-        files: 'server/app/public/bundle.css': ['client/modules/styles/bundle.styl']
+    stylus: do ->
+      config = {}
+      for app in apps
+        config[app] =
+          files: do ->
+            task = {}
+            task["server/app/public/#{app}_bundle.css"] = 'client/modules/styles/bundle.styl'
+            task
+        # config[app].files = {}
+        # config[app].files
+      config
 
     karma:
       options:
@@ -106,10 +100,10 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'buildlog', (appName) ->
     grunt.log.writeln ""
-    grunt.log.writeln "----------- Building #{appName} -----------"
+    grunt.log.writeln "============== Building #{appName} =============="
 
   for app in apps
-    grunt.registerTask "styles:#{app}", ["concat:#{app}", 'stylus', 'clean:stylus']
+    grunt.registerTask "styles:#{app}", ["concat:#{app}", "stylus:#{app}", 'clean:stylus']
     grunt.registerTask "build:#{app}", ["buildlog:#{app}", "styles:#{app}", "browserify:#{app}"]
 
   grunt.registerTask 'build', do ->
