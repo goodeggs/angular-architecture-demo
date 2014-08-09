@@ -1,4 +1,6 @@
-angular.module('app').config ($stateProvider) ->
+angular.module 'nestedViews.child1', []
+
+.config ($stateProvider) ->
 
   $stateProvider.state 'nestedViews.child1',
     url: '/child1'
