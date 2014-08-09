@@ -4,7 +4,8 @@ favicon = require 'static-favicon'
 logger = require 'morgan'
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
-layout = require './layout'
+jade = require 'jade'
+layout = jade.renderFile './server/app/layout.jade'
 
 app = express()
 
@@ -16,6 +17,6 @@ app.use cookieParser()
 app.use express.static(path.join(__dirname, 'public'))
 
 app.get '/', (req, res) ->
-  res.send layout()
+  res.send layout
 
 module.exports = app

@@ -1,6 +1,11 @@
-angular.module('app').config ($stateProvider) ->
+app = angular.module 'viewWithCustomDirectives', [
+  'ui.router'
+  'ui.bootstrap'
+]
 
-  $stateProvider.state 'main.viewWithCustomDirectives',
+app.config ($stateProvider) ->
+
+  $stateProvider.state 'viewWithCustomDirectives',
     url: '/single-view'
     template: require './template'
     controller: require './controller'

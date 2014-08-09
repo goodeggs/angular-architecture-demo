@@ -1,0 +1,27 @@
+doctype html
+html(lang='en', ng-app='app')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    title Kale
+    script(src='bundle.js')
+    link(href='bundle.css', rel='stylesheet')
+
+  body#app-view
+    nav
+      .container
+        .navbar-header
+          a.navbar-brand(href='#') Angular Demo Architecture
+
+        .navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li
+              a(href='#' ui-sref='singleView') Single View
+            li
+              a(href='#' ui-sref='multipleNamedViews') Multiple Named View
+            li
+              a(href='#' ui-sref='nestedViews.child1') Nested Views
+            li
+              a(href='#' ui-sref='viewWithCustomDirectives') View With Custom Directives
+    main
+      ui-view

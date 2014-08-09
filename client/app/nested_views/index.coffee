@@ -1,5 +1,10 @@
-angular.module('app').config ($stateProvider) ->
+app = angular.module 'nestedViews', [
+  'ui.router'
+  'ui.bootstrap'
+]
 
-  $stateProvider.state 'main.nestedViews',
+app.config ($stateProvider) ->
+
+  $stateProvider.state 'nestedViews',
     url: '/nested-views'
     template: require './template'

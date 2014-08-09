@@ -1,6 +1,11 @@
-angular.module('app').config ($stateProvider) ->
+app = angular.module 'singleView', [
+  'ui.router'
+  'ui.bootstrap'
+]
 
-  $stateProvider.state 'main.singleView',
+app.config ($stateProvider) ->
+
+  $stateProvider.state 'singleView',
     url: '/single-view'
     template: require './template'
     controller: require './controller'

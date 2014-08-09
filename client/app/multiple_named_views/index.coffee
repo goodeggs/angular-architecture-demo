@@ -1,14 +1,17 @@
-app = angular.module 'app'
+angular.module 'multipleNamedViews', [
+  'ui.router'
+  'ui.bootstrap'
+]
 
-app.config ($stateProvider) ->
-  $stateProvider.state 'main.multipleNamedViews',
+.config ($stateProvider) ->
+  $stateProvider.state 'multipleNamedViews',
     url: '/multiple-named-views'
     views:
       '':
         template: require './template'
-      'view1@main.multipleNamedViews':
+      'view1@multipleNamedViews':
         template: require './view1/template'
         controller: require './view1/controller'
-      'view2@main.multipleNamedViews':
+      'view2@multipleNamedViews':
         template: require './view2/template'
         controller: require './view2/controller'

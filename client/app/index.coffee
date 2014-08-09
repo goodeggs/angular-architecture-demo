@@ -1,12 +1,6 @@
-app = angular.module 'app', [
-  'ui.router'
-  'ui.bootstrap'
+angular.module 'app', [
+  'singleView'
+  'nestedViews'
+  'viewWithCustomDirectives'
+  'multipleNamedViews'
 ]
-
-
-app.config ($stateProvider, $urlRouterProvider) ->
-  $stateProvider.state 'main',
-    url: ''
-    template: require './template'
-
-  $urlRouterProvider.otherwise '/single-view'
