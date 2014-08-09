@@ -1,13 +1,14 @@
 doctype html
-html(lang='en', ng-app='app')
+html(lang='en')
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
     title Kale
-    script(src='bundle.js')
+    script(src='thirdparty_bundle.js')
+    script(src=appName + '_bundle.js')
     link(href='bundle.css', rel='stylesheet')
 
-  body#app-view
+  body
     nav
       .container
         .navbar-header
@@ -16,12 +17,13 @@ html(lang='en', ng-app='app')
         .navbar-collapse.collapse
           ul.nav.navbar-nav
             li
-              a(href='#' ui-sref='singleView') Single View
+              a(href='/single_view') Single View
             li
-              a(href='#' ui-sref='multipleNamedViews') Multiple Named View
+              a(href='/multiple_named_views') Multiple Named View
             li
-              a(href='#' ui-sref='nestedViews.child1') Nested Views
+              a(href='/multiple_named_views') Nested Views
             li
-              a(href='#' ui-sref='viewWithCustomDirectives') View With Custom Directives
-    main
+              a(href='/multiple_named_views') View With Custom Directives
+
+    main(ng-app=ngAppName)
       ui-view

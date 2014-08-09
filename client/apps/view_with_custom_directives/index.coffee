@@ -1,11 +1,11 @@
-app = angular.module 'singleView', [
+app = angular.module 'viewWithCustomDirectives', [
   'ui.router'
   'ui.bootstrap'
 ]
 
 app.config ($stateProvider) ->
 
-  $stateProvider.state 'singleView',
-    url: '/single-view'
+  $stateProvider.state 'viewWithCustomDirectives',
+    url: ''
     template: require './template'
     controller: require './controller'

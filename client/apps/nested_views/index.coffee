@@ -6,5 +6,5 @@ app = angular.module 'nestedViews', [
 app.config ($stateProvider) ->
 
   $stateProvider.state 'nestedViews',
-    url: '/nested-views'
+    url: ''
     template: require './template'

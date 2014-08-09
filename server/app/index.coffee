@@ -5,7 +5,6 @@ logger = require 'morgan'
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 jade = require 'jade'
-layout = jade.renderFile './server/app/layout.jade'
 
 app = express()
 
@@ -16,7 +15,13 @@ app.use bodyParser.urlencoded()
 app.use cookieParser()
 app.use express.static(path.join(__dirname, 'public'))
 
-app.get '/', (req, res) ->
+app.get '/:appName', (req, res) ->
+  {appName} = req.params
+  console.log appName
+  ngAppName = appName.replace(/(\_\w)/g, (m) -> m[1].toUpperCase())
+  console.log ngAppName
+
+  layout = jade.renderFile './server/app/layout.jade', {appName, ngAppName}
   res.send layout
 
 module.exports = app

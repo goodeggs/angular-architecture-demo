@@ -5,7 +5,7 @@ angular.module 'multipleNamedViews', [
 
 .config ($stateProvider) ->
   $stateProvider.state 'multipleNamedViews',
-    url: '/multiple-named-views'
+    url: ''
     views:
       '':
         template: require './template'
