@@ -1,117 +1,130 @@
 module.exports = (grunt) ->
   # load devDependency grunt tasks
-  require('matchdep').filterAll(['grunt-*', '!grunt-cli']).forEach(grunt.loadNpmTasks)
+  require("matchdep").filterAll(["grunt-*", "!grunt-cli"]).forEach(grunt.loadNpmTasks)
 
   # all apps as they appear in the directory name
   apps = [
-    'single_view'
-    'multiple_named_views'
-    'nested_views'
-    'view_with_custom_directives'
+    "single_view"
+    "multiple_named_views"
+    "nested_views"
+    "view_with_custom_directives"
   ]
+
+  dest = "server/app/public"
+  modules = "client/modules"
 
   grunt.initConfig
     browserify: do ->
       config =
         options:
-          transform: ['coffeeify', 'jadeify', 'stylify']
-          browserifyOptions: extensions: ['.coffee', '.jade', '.styl']
+          transform: ["coffeeify", "jadeify"]
+          browserifyOptions: extensions: [".coffee", ".jade"]
           bundleOptions: debug: true
         thirdparty:
-          files:
-            'server/app/public/thirdparty_bundle.js': [
-              'client/modules/thirdparty/angular.js'
-              'client/modules/thirdparty/*'
-            ]
+          src: [ "#{modules}/thirdparty/angular.js", "#{modules}/thirdparty/*"]
+          dest: "#{dest}/thirdparty_bundle.js"
       for app in apps
         config[app] =
           src: "client/apps/#{app}/**/index.coffee"
-          dest: "server/app/public/#{app}_bundle.js"
+          dest: "#{dest}/#{app}_bundle.js"
       config
 
     clean:
-      public: ['server/app/public']
-      stylus: ['client/modules/styles/bundle.styl']
+      public: ["#{dest}"]
+      stylus: ["#{modules}/styles/bundle.styl"]
 
     concat: do ->
       config = {}
       for app in apps
         config[app] =
-          src: ['client/modules/styles/index.styl', "client/apps/#{app}/**/*.styl"],
-          dest: 'client/modules/styles/bundle.styl'
+          src: ["#{modules}/styles/index.styl", "client/apps/#{app}/**/*.styl"],
+          dest: "#{modules}/styles/bundle.styl"
       config
 
     concurrent:
       options: logConcurrentOutput: true
-      dev: ['watch', 'nodemon:dev']
+      dev: ["watch", "nodemon:dev"]
 
     copy:
       main:
         files: [
-          expand: true, cwd: 'client', src: ['assets/**/*.!(js|coffee|html|styl|css)'], dest: 'public'
+          expand: true, cwd: "client", src: ["assets/**/*.!(js|coffee|html|styl|css)"], dest: "public"
         ]
 
     stylus: do ->
       config = {}
       for app in apps
         config[app] =
-          src: 'client/modules/styles/bundle.styl'
-          dest: "server/app/public/#{app}_bundle.css"
+          src: "#{modules}/styles/bundle.styl"
+          dest: "#{dest}/#{app}_bundle.css"
       config
 
     karma:
       options:
-        configFile: 'config/karma.conf.coffee',
+        configFile: "config/karma.conf.coffee",
       browser:
         autoWatch: true
         singleRun: false
-        browsers: ['Chrome', 'Firefox']
+        browsers: ["Chrome", "Firefox"]
       continuous:
         singleRun: true
       coverage:
-        reporters: ['coverage']
+        reporters: ["coverage"]
       watch:
         autoWatch: true
         singleRun: false
       debug:
         autoWatch: true
         singleRun: false
-        browsers: ['Chrome']
+        browsers: ["Chrome"]
 
     ngAnnotate: do ->
       config = {}
       for app in apps
         config[app] =
-          src: "server/app/public/#{app}_bundle.js"
-          dest: "server/app/public/#{app}_bundle.js"
+          src: "#{dest}/#{app}_bundle.js"
+          dest: "#{dest}/#{app}_bundle.js"
       config
 
     nodemon:
-      dev: script: 'bin/www'
+      dev: script: "bin/www"
 
     shell:
-      'npm-start': command: 'npm start'
+      "npm-start": command: "npm start"
+
+    uglify: do ->
+      config = {}
+      for app in apps
+        config[app] =
+          src: "#{dest}/#{app}_bundle.js"
+          dest: "#{dest}/#{app}_bundle.js"
+      config
 
     watch: do ->
-      watchTasks = {}
+      config = {}
       for app in apps
-        watchTasks[app] =
+        config[app] =
           files: ["client/apps/#{app}/**"]
           tasks: ["build:#{app}"]
-      watchTasks
+      config
 
-  grunt.registerTask 'buildlog', (appName) ->
+  grunt.registerTask "buildlog", (appName) ->
     grunt.log.writeln ""
     grunt.log.writeln "============== Building #{appName} =============="
 
   for app in apps
-    grunt.registerTask "styles:#{app}", ["concat:#{app}", "stylus:#{app}", 'clean:stylus']
+    grunt.registerTask "styles:#{app}", ["concat:#{app}", "stylus:#{app}", "clean:stylus"]
     grunt.registerTask "build:#{app}", ["buildlog:#{app}", "styles:#{app}", "browserify:#{app}"]
 
-  grunt.registerTask 'build', do ->
-    tasks = ['browserify:thirdparty']
-    for app in apps
-      tasks.push "build:#{app}"
+  grunt.registerTask "build", do ->
+    tasks = ["browserify:thirdparty"]
+    tasks.push "build:#{app}" for app in apps
     tasks
 
-  grunt.registerTask 'dev', ['npm-install', 'clean:public', 'build', 'concurrent:dev']
+  grunt.registerTask "build:prod", do ->
+    tasks = ["browserify:thirdparty"]
+    tasks.push "build:#{app}", "ngAnnotate:#{app}" for app in apps
+    tasks
+
+  grunt.registerTask "dev", ["npm-install", "clean:public", "build", "concurrent:dev"]
+  grunt.registerTask "prod", ["npm-install", "clean:public", "build:prod", "concurrent:dev"]
